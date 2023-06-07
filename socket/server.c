@@ -29,8 +29,8 @@ int main() {
 
 	struct sockaddr_in addr_in;
 	addr_in.sin_family = domain;				// 设置地址类型
-	addr_in.sin_port = htons(PROT);				// 绑定端口 本地字节序转网络字节序
-	addr_in.sin_addr = inet_addr(SERVER_ADDR);	// 绑定地址
+	addr_in.sin_port = htons(PORT);				// 绑定端口 本地字节序转网络字节序
+	addr_in.sin_addr.s_addr = inet_addr(SERVER_ADDR);	// 绑定地址
 	ret = bind(sfd, (struct sockaddr *)&addr_in, sizeof(addr_in)); // 1 socker fd, 2 host + ip, addr_in 强制转化使用， 3 地址大小
 	if (-1 == ret) {
 		err("bind server addr error\n");
@@ -41,21 +41,30 @@ int main() {
 		err("set listen error\n");
 	}
 
-	struct sockadd_in n_addr_in;
+	struct sockaddr_in n_addr_in;
 	int addr_len = sizeof(n_addr_in);
-	int nfd = accept(sfd, (struct sockaddr *)&n_addr_in, &n_addr_in); // 用于接收连接 会返回连接成功的sock_fd, 以及clent的信息
+	int nfd = accept(sfd, (struct sockaddr *)&n_addr_in, &addr_len); // 用于接收连接 会返回连接成功的sock_fd, 以及clent的信息
 	if (-1 == nfd) {
 		err("accept new socket error\n");
 	}
 	
-	char buf[BUF_SIZE]
+	char buf[BUF_SIZE];
 	while (1) {
 		ret = read(nfd, &buf, BUF_SIZE);
+		if (-1 == ret) {
+			err("read error\n");
+		}
+
+		printf("%s\n", buf);
 		int i = 0;
-		for (; i < ret; i++) {
+		for (; i < ret; i++) { // toupper 转化大写
 			buf[i] = toupper(buf[i]);
 		}
 
+		ret = write(nfd, &buf, BUF_SIZE);
+		if (-1 == ret) {
+			err("write error\n");
+		}
 	}
 
 	close(nfd); // 关闭 socket 连接

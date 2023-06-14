@@ -1,17 +1,16 @@
-#include <stdlib.h>
-#include <stdio.h>
-#include <unistd.h>
-#include <errno.h>
-#include <sys/socket.h>
+#include "wrap.h"
 
-void perr_exit(const char *s)
-{
+void err(const char *s) {
 	perror(s);
 	exit(-1);
 }
 
-int Accept(int fd, struct sockaddr *sa, socklen_t *salenptr)
-{
+void perr_exit(const char *s) {
+	perror(s);
+	exit(-1);
+}
+
+int Accept(int fd, struct sockaddr *sa, socklen_t *salenptr) {
 	int n;
 
 again:
@@ -24,39 +23,35 @@ again:
 	return n;
 }
 
-int Bind(int fd, const struct sockaddr *sa, socklen_t salen)
-{
-    int n;
+int Bind(int fd, const struct sockaddr *sa, socklen_t salen) {
+	int n;
 
 	if ((n = bind(fd, sa, salen)) < 0)
 		perr_exit("bind error");
 
-    return n;
+	return n;
 }
 
-int Connect(int fd, const struct sockaddr *sa, socklen_t salen)
-{
-    int n;
-    n = connect(fd, sa, salen);
+int Connect(int fd, const struct sockaddr *sa, socklen_t salen) {
+	int n;
+	n = connect(fd, sa, salen);
 	if (n < 0) {
 		perr_exit("connect error");
-    }
+	}
 
-    return n;
+	return n;
 }
 
-int Listen(int fd, int backlog)
-{
-    int n;
+int Listen(int fd, int backlog) {
+	int n;
 
 	if ((n = listen(fd, backlog)) < 0)
 		perr_exit("listen error");
 
-    return n;
+	return n;
 }
 
-int Socket(int family, int type, int protocol)
-{
+int Socket(int family, int type, int protocol) {
 	int n;
 
 	if ((n = socket(family, type, protocol)) < 0)
@@ -65,8 +60,7 @@ int Socket(int family, int type, int protocol)
 	return n;
 }
 
-ssize_t Read(int fd, void *ptr, size_t nbytes)
-{
+ssize_t Read(int fd, void *ptr, size_t nbytes) {
 	ssize_t n;
 
 again:
@@ -80,8 +74,7 @@ again:
 	return n;
 }
 
-ssize_t Write(int fd, const void *ptr, size_t nbytes)
-{
+ssize_t Write(int fd, const void *ptr, size_t nbytes) {
 	ssize_t n;
 
 again:
@@ -94,18 +87,17 @@ again:
 	return n;
 }
 
-int Close(int fd)
-{
-    int n;
+int Close(int fd) {
+	int n;
 	if ((n = close(fd)) == -1)
 		perr_exit("close error");
 
-    return n;
+	return n;
 }
 
-/*参三: 应该读取的字节数*/                          //socket 4096  readn(cfd, buf, 4096)   nleft = 4096-1500
-ssize_t Readn(int fd, void *vptr, size_t n)
-{
+/*参三: 应该读取的字节数*/
+//socket 4096  readn(cfd, buf, 4096)   nleft = 4096-1500
+ssize_t Readn(int fd, void *vptr, size_t n) {
 	size_t  nleft;              //usigned int 剩余未读取的字节数
 	ssize_t nread;              //int 实际读到的字节数
 	char   *ptr;
@@ -128,8 +120,7 @@ ssize_t Readn(int fd, void *vptr, size_t n)
 	return n - nleft;
 }
 
-ssize_t Writen(int fd, const void *vptr, size_t n)
-{
+ssize_t Writen(int fd, const void *vptr, size_t n) {
 	size_t nleft;
 	ssize_t nwritten;
 	const char *ptr;
@@ -149,8 +140,7 @@ ssize_t Writen(int fd, const void *vptr, size_t n)
 	return n;
 }
 
-static ssize_t my_read(int fd, char *ptr)
-{
+static ssize_t my_read(int fd, char *ptr) {
 	static int read_cnt;
 	static char *read_ptr;
 	static char read_buf[100];
@@ -172,10 +162,10 @@ again:
 	return 1;
 }
 
+
 /*readline --- fgets*/    
 //传出参数 vptr
-ssize_t Readline(int fd, void *vptr, size_t maxlen)
-{
+ssize_t Readline(int fd, void *vptr, size_t maxlen) {
 	ssize_t n, rc;
 	char    c, *ptr;
 	ptr = vptr;
@@ -195,4 +185,3 @@ ssize_t Readline(int fd, void *vptr, size_t maxlen)
 
 	return n;
 }
-

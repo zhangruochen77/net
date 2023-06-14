@@ -18,8 +18,6 @@ void err(const char* msg) {
 	_exit(1);
 }
 
-
-
 int main() {
 	int domain = AF_INET, type = SOCK_STREAM, protocal = 0; 
 	int sfd = socket(domain, type, protocal); // 1.地址类型 ipv4 2.协议 tcp 3. 选择协议方式 0 跟随默认

@@ -1,18 +1,21 @@
-src = $(wildcard ./*.c)
-obj = $(patsubst ./%., ./%.o, $(src))
+src = $(wildcard *.c)
+obj = $(patsubst %.c, %.o, $(src))
 
 agrs = -Wall -g
 
-ALL:out
+ALL:server client
 
-$(obj):
-	gcc -c $< -o $@ $(args)
+server: server.o wrap.o
+	gcc server.o wrap.o -o server -Wall
 
-hello:$(obj)
-	gcc $^ -o $@ $(args)
+client: client.o wrap.o
+	gcc client.o wrap.o -o client -Wall
+
+%.o:%.c
+	gcc -c $< -Wall
 
 clean:
-	-rm -rf $(obj)
+	-rm -rf server client
 
 .PHONY: ALL clean
 

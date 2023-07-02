@@ -1,0 +1,33 @@
+!_TAG_FILE_FORMAT	2	/extended format; --format=1 will not append ;" to lines/
+!_TAG_FILE_SORTED	1	/0=unsorted, 1=sorted, 2=foldcase/
+!_TAG_PROGRAM_AUTHOR	Darren Hiebert	/dhiebert@users.sourceforge.net/
+!_TAG_PROGRAM_NAME	Exuberant Ctags	//
+!_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
+!_TAG_PROGRAM_VERSION	5.9~svn20110310	//
+BUFLEN	./epoll_loop.c	16;"	d	file:
+CC	./makefile	/^CC = gcc$/;"	m
+CFLAGS	./makefile	/^CFLAGS = -Wall -g $/;"	m
+MAX_EVENTS	./epoll_loop.c	15;"	d	file:
+SERV_PORT	./epoll_loop.c	17;"	d	file:
+acceptconn	./epoll_loop.c	/^void acceptconn(int lfd, int events, void *arg)$/;"	f
+arg	./epoll_loop.c	/^    void *arg;                                              \/\/泛型参数$/;"	m	struct:myevent_s	file:
+buf	./epoll_loop.c	/^    char buf[BUFLEN];$/;"	m	struct:myevent_s	file:
+call_back	./epoll_loop.c	/^    void (*call_back)(int fd, int events, void *arg);       \/\/回调函数$/;"	m	struct:myevent_s	file:
+eventadd	./epoll_loop.c	/^void eventadd(int efd, int events, struct myevent_s *ev)$/;"	f
+eventdel	./epoll_loop.c	/^void eventdel(int efd, struct myevent_s *ev)$/;"	f
+events	./epoll_loop.c	/^    int events;                                             \/\/对应的监听事件$/;"	m	struct:myevent_s	file:
+eventset	./epoll_loop.c	/^void eventset(struct myevent_s *ev, int fd, void (*call_back)(int, int, void *), void *arg)$/;"	f
+fd	./epoll_loop.c	/^    int fd;                                                 \/\/要监听的文件描述符$/;"	m	struct:myevent_s	file:
+g_efd	./epoll_loop.c	/^int g_efd;                                                  \/\/全局变量, 保存epoll_create返回的文件描述符$/;"	v
+g_events	./epoll_loop.c	/^struct myevent_s g_events[MAX_EVENTS+1];                    \/\/自定义结构体类型数组. +1-->listen fd$/;"	v	typeref:struct:myevent_s
+initlistensocket	./epoll_loop.c	/^void initlistensocket(int efd, short port)$/;"	f
+last_active	./epoll_loop.c	/^    long last_active;                                       \/\/记录每次加入红黑树 g_efd 的时间值$/;"	m	struct:myevent_s	file:
+len	./epoll_loop.c	/^    int len;$/;"	m	struct:myevent_s	file:
+main	./builtin_var.c	/^int main(void)$/;"	f
+main	./epoll_loop.c	/^int main(int argc, char *argv[])$/;"	f
+myevent_s	./epoll_loop.c	/^struct myevent_s {$/;"	s	file:
+recvdata	./epoll_loop.c	/^void recvdata(int fd, int events, void *arg)$/;"	f
+senddata	./epoll_loop.c	/^void senddata(int fd, int events, void *arg)$/;"	f
+src	./makefile	/^src = $(wildcard *.c)$/;"	m
+status	./epoll_loop.c	/^    int status;                                             \/\/是否在监听:1->在红黑树上(监听), 0->不在(不监听)$/;"	m	struct:myevent_s	file:
+targets	./makefile	/^targets = $(patsubst %.c, %, $(src))$/;"	m
